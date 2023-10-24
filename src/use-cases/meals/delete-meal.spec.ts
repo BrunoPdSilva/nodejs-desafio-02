@@ -17,6 +17,7 @@ describe("Delete Meal [UNIT]", () => {
     const meal = await mealsRepository.registerMeal({
       name: "Pastel",
       user_session_id: "123456",
+      date_time: new Date().toISOString(),
     })
 
     await useCase.execute(meal.id)

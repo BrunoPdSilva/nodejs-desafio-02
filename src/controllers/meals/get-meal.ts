@@ -1,19 +1,19 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { KnexMealsRepository } from "@/repositories/knex/knex-meals-repository"
-import { FetchMeals } from "@/use-cases/meals/fetch-meals"
 import { MealNotFoundError } from "@/use-cases/errors"
 import { z } from "zod"
+import { GetMealById } from "@/use-cases/meals/get-meal-by-id"
 
-export async function fetchMealByID(req: FastifyRequest, res: FastifyReply) {
+export async function getMeal(req: FastifyRequest, res: FastifyReply) {
   try {
     const paramsSchema = z.object({ id: z.string().uuid() })
     const { id } = paramsSchema.parse(req.params)
 
     const mealsRepository = new KnexMealsRepository()
-    const findMeal = new FetchMeals(mealsRepository)
-    const meal = await findMeal.fetchMealByID(id)
+    const useCase = new GetMealById(mealsRepository)
+    const { meal } = await useCase.execute(id)
 
-    return { meal }
+    return res.status(200).send({ meal })
   } catch (error) {
     if (error instanceof z.ZodError) {
       res.status(400).send("ID inválido.")

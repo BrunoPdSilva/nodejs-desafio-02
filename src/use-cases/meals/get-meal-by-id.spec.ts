@@ -18,6 +18,7 @@ describe("Get Meal By ID [UNIT]", () => {
       name: "Pastel",
       user_id: "123",
       user_session_id: "456",
+      date_time: new Date().toISOString(),
     })
 
     const { meal } = await useCase.execute(registerResponse.id)

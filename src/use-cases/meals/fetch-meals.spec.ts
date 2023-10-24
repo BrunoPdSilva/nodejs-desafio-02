@@ -18,12 +18,14 @@ describe("Fetch Meals [UNIT]", () => {
       name: "Pastel",
       user_id: "3945",
       user_session_id: "2849",
+      date_time: new Date().toISOString(),
     })
 
     await mealsRepository.registerMeal({
       name: "Pizza",
       user_id: "3945",
       user_session_id: "2843",
+      date_time: new Date().toISOString(),
     })
 
     const { meals } = await useCase.execute("2849", "3945")
@@ -38,11 +40,13 @@ describe("Fetch Meals [UNIT]", () => {
     await mealsRepository.registerMeal({
       name: "Pastel",
       user_session_id: "2849",
+      date_time: new Date().toISOString(),
     })
 
     await mealsRepository.registerMeal({
       name: "Pizza",
       user_session_id: "2843",
+      date_time: new Date().toISOString(),
     })
 
     const { meals } = await useCase.execute("2849")

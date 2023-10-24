@@ -6,8 +6,8 @@ import { UsersNotFoundError } from "@/use-cases/errors"
 export async function fetchUsers(_: FastifyRequest, res: FastifyReply) {
   try {
     const usersRepository = new KnexUsersRepository()
-    const FetchUsers = new FetchUsers(usersRepository)
-    const users = await FetchUsers.fetchUsers()
+    const useCase = new FetchUsers(usersRepository)
+    const { users } = await useCase.execute()
 
     return { users }
   } catch (error) {

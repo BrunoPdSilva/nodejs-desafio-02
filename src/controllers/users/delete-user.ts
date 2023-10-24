@@ -10,9 +10,9 @@ export async function deleteUser(req: FastifyRequest, res: FastifyReply) {
     const { id } = paramsSchema.parse(req.params)
 
     const usersRepository = new KnexUsersRepository()
-    const deleteService = new DeleteUser(usersRepository)
+    const useCase = new DeleteUser(usersRepository)
 
-    await deleteService.delete(id)
+    await useCase.execute(id)
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res

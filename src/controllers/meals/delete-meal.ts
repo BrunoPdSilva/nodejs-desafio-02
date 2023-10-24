@@ -10,9 +10,9 @@ export async function deleteMeal(req: FastifyRequest, res: FastifyReply) {
     const { id } = paramsSchema.parse(req.params)
 
     const mealsRepository = new KnexMealsRepository()
-    const deleteMealService = new DeleteMeal(mealsRepository)
+    const useCase = new DeleteMeal(mealsRepository)
 
-    await deleteMealService.delete(id)
+    await useCase.execute(id)
 
     return res.status(204).send()
   } catch (error) {

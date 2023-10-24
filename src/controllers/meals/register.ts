@@ -4,19 +4,18 @@ import { RegisterMeal } from "@/use-cases/meals/register-meal"
 import { randomUUID } from "crypto"
 import { z } from "zod"
 
-export async function registerMeal(req: FastifyRequest, res: FastifyReply) {
+export async function register(req: FastifyRequest, res: FastifyReply) {
   try {
     const bodySchema = z.object({
       name: z.string(),
-      description: z.string(),
-      date: z.string(),
-      time: z.string(),
-      in_diet: z.boolean(),
+      description: z.string().optional(),
+      date_time: z.string().optional(),
+      in_diet: z.boolean().optional(),
     })
 
     const data = bodySchema.parse(req.body)
 
-    const consumer_id = req.cookies.userID
+    const user_id = req.cookies.userID
     let { sessionID } = req.cookies
 
     if (!sessionID) {
@@ -26,14 +25,15 @@ export async function registerMeal(req: FastifyRequest, res: FastifyReply) {
     }
 
     const mealsRepository = new KnexMealsRepository()
-    const RegisterMeal = new RegisterMeal(mealsRepository)
+    const useCase = new RegisterMeal(mealsRepository)
 
-    await RegisterMeal.register({
-      id: randomUUID(),
-      consumer_id,
-      consumer_session_id: sessionID,
+    const { meal } = await useCase.execute({
+      user_id,
+      user_session_id: sessionID,
       ...data,
     })
+
+    return res.status(201).send({ meal })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res.status(400).send({

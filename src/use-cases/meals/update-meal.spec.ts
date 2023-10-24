@@ -17,6 +17,7 @@ describe("Update Meal [UNIT]", () => {
     const meal = await mealsRepository.registerMeal({
       name: "Test 1",
       user_session_id: "123456",
+      date_time: new Date().toISOString(),
     })
 
     const { mealUpdated } = await useCase.execute(meal.id, {

@@ -1,17 +1,17 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository"
-import { FetchUser } from "@/use-cases/users/get-user"
+import { GetUser } from "@/use-cases/users/get-user"
 import { UserNotFoundError } from "@/use-cases/errors"
 import { z } from "zod"
 
-export async function fetchUser(req: FastifyRequest, res: FastifyReply) {
+export async function getUser(req: FastifyRequest, res: FastifyReply) {
   try {
     const paramsSchema = z.object({ id: z.string().uuid() })
     const { id } = paramsSchema.parse(req.params)
 
     const usersRepository = new KnexUsersRepository()
-    const getUserService = new FetchUser(usersRepository)
-    const user = await getUserService.getUserByID(id)
+    const useCase = new GetUser(usersRepository)
+    const { user } = await useCase.execute(id)
 
     return { user }
   } catch (error) {

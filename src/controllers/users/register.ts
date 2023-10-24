@@ -1,10 +1,10 @@
 import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository"
-import { RegisterUser } from "@/use-cases/users/register-user"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { randomUUID } from "crypto"
 import { z } from "zod"
+import { RegisterUser } from "@/use-cases/users/register-user"
 
-export async function RegisterUser(req: FastifyRequest, res: FastifyReply) {
+export async function register(req: FastifyRequest, res: FastifyReply) {
   try {
     const bodySchema = z.object({ name: z.string(), email: z.string().email() })
     const { name, email } = bodySchema.parse(req.body)
@@ -18,11 +18,17 @@ export async function RegisterUser(req: FastifyRequest, res: FastifyReply) {
     }
 
     const usersRepository = new KnexUsersRepository()
-    const RegisterUser = new RegisterUser(usersRepository)
+    const useCase = new RegisterUser(usersRepository)
 
-    await RegisterUser.create({ id, name, email, session_id: sessionID })
+    const { user } = await useCase.execute({
+      name,
+      email,
+      session_id: sessionID,
+    })
 
     res.cookie("userID", id, { path: "/", maxAge })
+
+    return res.status(201).send({ user })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return res

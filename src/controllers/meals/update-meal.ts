@@ -4,7 +4,7 @@ import { UpdateMeal } from "@/use-cases/meals/update-meal"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
 
-export async function updateMeal(req: FastifyRequest, res: FastifyReply) {
+export async function update(req: FastifyRequest, res: FastifyReply) {
   try {
     const paramsSchema = z.object({ id: z.string().uuid() })
     const bodySchema = z.object({
@@ -19,10 +19,10 @@ export async function updateMeal(req: FastifyRequest, res: FastifyReply) {
     const data = bodySchema.parse(req.body)
 
     const mealsRepository = new KnexMealsRepository()
-    const UpdateMeal = new UpdateMeal(mealsRepository)
-    await UpdateMeal.update(id, data)
+    const useCase = new UpdateMeal(mealsRepository)
+    const { mealUpdated } = await useCase.execute(id, data)
 
-    res.status(204).send()
+    res.status(204).send({ mealUpdated })
   } catch (error) {
     if (error instanceof z.ZodError) {
       res.status(400).send("Informe os dados da refeição corretamente.")

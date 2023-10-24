@@ -9,7 +9,7 @@ export class InMemoryMealsRepository implements TMealsRepository {
     return meal ? meal : null
   }
 
-  async fetchMeals(sessionID: string, id?: string) {
+  async fetchMeals(sessionID: string, id = "") {
     const meals = this.meals.filter(
       meal => meal.user_id === id || meal.user_session_id === sessionID
     )
@@ -22,7 +22,6 @@ export class InMemoryMealsRepository implements TMealsRepository {
       user_id: data.user_id ?? null,
       description: data.description ?? null,
       in_diet: data.in_diet ?? false,
-      date_time: new Date().toISOString(),
       ...data,
     }
 

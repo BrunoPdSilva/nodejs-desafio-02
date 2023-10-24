@@ -11,14 +11,15 @@ export type Meal = {
 export type MealCreation = {
   name: string
   user_session_id: string
+  date_time: string
   description?: string
   user_id?: string
-  in_diet?: boolean
+  in_diet?: boolean,
 }
 
 export type TMealsRepository = {
   getMealById(id: string): Promise<Meal | null>
-  fetchMeals(sessionID: string, id?: string): Promise<Meal[] | null>
+  fetchMeals(sessionID: string, id: string): Promise<Meal[] | null>
   registerMeal(data: MealCreation): Promise<Meal>
   updateMeal(id: string, data: Partial<Meal>): Promise<Meal>
   deleteMeal(id: string): Promise<void>

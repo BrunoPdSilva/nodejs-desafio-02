@@ -17,7 +17,8 @@ describe("Register Meal [UNIT]", () => {
     const { meal } = await useCase.execute({
       name: "Pastel",
       description: "Pastel da feira de domingo.",
-      user_session_id: randomUUID()
+      user_session_id: randomUUID(),
+      date_time: new Date().toISOString(),
     })
 
     expect(meal).toEqual(
@@ -32,4 +33,4 @@ describe("Register Meal [UNIT]", () => {
       })
     )
   })
-}) 
+})

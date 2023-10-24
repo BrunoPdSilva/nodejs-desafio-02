@@ -13,8 +13,8 @@ export type UserCreation = {
 }
 
 export type TUsersRepository = {
-  deleteUserByID(id: string): Promise<void>
+  register(data: UserCreation): Promise<User>
   getUserById(id: string): Promise<User | null>
   fetchUsers(): Promise<User[] | null>
-  register(data: UserCreation): Promise<User>
+  deleteUserByID(id: string): Promise<void>
 }

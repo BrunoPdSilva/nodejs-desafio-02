@@ -5,14 +5,14 @@ import { FastifyReply, FastifyRequest } from "fastify"
 
 export async function fetchUserMeals(req: FastifyRequest, res: FastifyReply) {
   try {
-    const { sessionID = "", userID = "" } = req.cookies
+    const { sessionID, userID } = req.cookies
 
     const mealsRepository = new KnexMealsRepository()
-    const FetchMeals = new FetchMeals(mealsRepository)
+    const useCase = new FetchMeals(mealsRepository)
 
-    const meals = await FetchMeals.fetchMeals(sessionID, userID)
+    const { meals } = await useCase.execute(sessionID!, userID)
 
-    return { meals }
+    return res.status(200).send({ meals })
   } catch (error) {
     if (error instanceof MealsNotFoundError) {
       res.status(404).send({ error: error.message })
