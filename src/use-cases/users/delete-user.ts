@@ -1,11 +1,11 @@
 import { TUsersRepository } from "@/repositories/users-repository"
 import { UserNotFoundError } from "../errors"
 
-export class DeleteUserService {
+export class DeleteUser {
   constructor(private usersRepository: TUsersRepository) {}
 
-  async delete(id: string) {
-    const user = await this.usersRepository.findUserByID(id)
+  async execute(id: string) {
+    const user = await this.usersRepository.getUserById(id)
 
     if (!user) throw new UserNotFoundError()
 

@@ -1,13 +1,13 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository"
-import { FetchUsersService } from "@/services/users/fetch-users-service"
-import { UsersNotFoundError } from "@/services/errors"
+import { FetchUsers } from "@/use-cases/users/fetch-users"
+import { UsersNotFoundError } from "@/use-cases/errors"
 
 export async function fetchUsers(_: FastifyRequest, res: FastifyReply) {
   try {
     const usersRepository = new KnexUsersRepository()
-    const fetchUsersService = new FetchUsersService(usersRepository)
-    const users = await fetchUsersService.fetchUsers()
+    const FetchUsers = new FetchUsers(usersRepository)
+    const users = await FetchUsers.fetchUsers()
 
     return { users }
   } catch (error) {

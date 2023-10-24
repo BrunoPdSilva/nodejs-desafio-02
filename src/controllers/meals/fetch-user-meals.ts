@@ -1,6 +1,6 @@
 import { KnexMealsRepository } from "@/repositories/knex/knex-meals-repository"
-import { MealsNotFoundError } from "@/services/errors"
-import { FetchMealsService } from "@/services/meals/fetch-meal-service"
+import { MealsNotFoundError } from "@/use-cases/errors"
+import { FetchMeals } from "@/use-cases/meals/fetch-meals"
 import { FastifyReply, FastifyRequest } from "fastify"
 
 export async function fetchUserMeals(req: FastifyRequest, res: FastifyReply) {
@@ -8,9 +8,9 @@ export async function fetchUserMeals(req: FastifyRequest, res: FastifyReply) {
     const { sessionID = "", userID = "" } = req.cookies
 
     const mealsRepository = new KnexMealsRepository()
-    const fetchMealsService = new FetchMealsService(mealsRepository)
+    const FetchMeals = new FetchMeals(mealsRepository)
 
-    const meals = await fetchMealsService.fetchMeals(sessionID, userID)
+    const meals = await FetchMeals.fetchMeals(sessionID, userID)
 
     return { meals }
   } catch (error) {

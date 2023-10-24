@@ -1,14 +1,14 @@
 import { TUsersRepository } from "@/repositories/users-repository"
 import { UsersNotFoundError } from "../errors"
 
-export class FetchUsersService {
+export class FetchUsers {
   constructor(private usersRepository: TUsersRepository) {}
 
-  async fetchUsers() {
+  async execute() {
     const users = await this.usersRepository.fetchUsers()
 
     if (!users) throw new UsersNotFoundError()
 
-    return users
+    return { users }
   }
 }

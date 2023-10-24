@@ -1,6 +1,6 @@
 import { KnexMealsRepository } from "@/repositories/knex/knex-meals-repository"
-import { MealNotFoundError } from "@/services/errors"
-import { DeleteMealService } from "@/services/meals/delete-meal-service"
+import { MealNotFoundError } from "@/use-cases/errors"
+import { DeleteMeal } from "@/use-cases/meals/delete-meal"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
 
@@ -10,7 +10,7 @@ export async function deleteMeal(req: FastifyRequest, res: FastifyReply) {
     const { id } = paramsSchema.parse(req.params)
 
     const mealsRepository = new KnexMealsRepository()
-    const deleteMealService = new DeleteMealService(mealsRepository)
+    const deleteMealService = new DeleteMeal(mealsRepository)
 
     await deleteMealService.delete(id)
 

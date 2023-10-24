@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { KnexMealsRepository } from "@/repositories/knex/knex-meals-repository"
-import { FetchMealsService } from "@/services/meals/fetch-meal-service"
-import { MealNotFoundError } from "@/services/errors"
+import { FetchMeals } from "@/use-cases/meals/fetch-meals"
+import { MealNotFoundError } from "@/use-cases/errors"
 import { z } from "zod"
 
 export async function fetchMealByID(req: FastifyRequest, res: FastifyReply) {
@@ -10,7 +10,7 @@ export async function fetchMealByID(req: FastifyRequest, res: FastifyReply) {
     const { id } = paramsSchema.parse(req.params)
 
     const mealsRepository = new KnexMealsRepository()
-    const findMeal = new FetchMealsService(mealsRepository)
+    const findMeal = new FetchMeals(mealsRepository)
     const meal = await findMeal.fetchMealByID(id)
 
     return { meal }

@@ -1,6 +1,6 @@
 import { KnexMealsRepository } from "@/repositories/knex/knex-meals-repository"
-import { MealNotFoundError, MealNotUpdated } from "@/services/errors"
-import { UpdateMealService } from "@/services/meals/update-meal-service"
+import { MealNotFoundError, MealNotUpdated } from "@/use-cases/errors"
+import { UpdateMeal } from "@/use-cases/meals/update-meal"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { z } from "zod"
 
@@ -19,8 +19,8 @@ export async function updateMeal(req: FastifyRequest, res: FastifyReply) {
     const data = bodySchema.parse(req.body)
 
     const mealsRepository = new KnexMealsRepository()
-    const updateMealService = new UpdateMealService(mealsRepository)
-    await updateMealService.update(id, data)
+    const UpdateMeal = new UpdateMeal(mealsRepository)
+    await UpdateMeal.update(id, data)
 
     res.status(204).send()
   } catch (error) {

@@ -1,13 +1,15 @@
 import { TMealsRepository } from "@/repositories/meals-repository"
 import { MealNotFoundError } from "../errors"
 
-export class DeleteMealService {
+export class DeleteMeal {
   constructor(private mealsRepository: TMealsRepository) {}
 
-  async delete(id: string) {
-    const meal = this.mealsRepository.findMealByID(id)
+  async execute(id: string) {
+    const meal = await this.mealsRepository.getMealById(id)
 
-    if (!meal) throw new MealNotFoundError()
+    if (!meal) {
+      throw new MealNotFoundError()
+    }
 
     await this.mealsRepository.deleteMeal(id)
   }

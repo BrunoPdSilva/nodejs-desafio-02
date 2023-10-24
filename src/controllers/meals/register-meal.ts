@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { KnexMealsRepository } from "@/repositories/knex/knex-meals-repository"
-import { RegisterMealService } from "@/services/meals/register-meal-service"
+import { RegisterMeal } from "@/use-cases/meals/register-meal"
 import { randomUUID } from "crypto"
 import { z } from "zod"
 
@@ -26,9 +26,9 @@ export async function registerMeal(req: FastifyRequest, res: FastifyReply) {
     }
 
     const mealsRepository = new KnexMealsRepository()
-    const registerMealService = new RegisterMealService(mealsRepository)
+    const RegisterMeal = new RegisterMeal(mealsRepository)
 
-    await registerMealService.register({
+    await RegisterMeal.register({
       id: randomUUID(),
       consumer_id,
       consumer_session_id: sessionID,

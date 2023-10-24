@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify"
 import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository"
-import { DeleteUserService } from "@/services/users/delete-user-service"
-import { UserNotFoundError } from "@/services/errors"
+import { DeleteUser } from "@/use-cases/users/delete-user"
+import { UserNotFoundError } from "@/use-cases/errors"
 import { z } from "zod"
 
 export async function deleteUser(req: FastifyRequest, res: FastifyReply) {
@@ -10,7 +10,7 @@ export async function deleteUser(req: FastifyRequest, res: FastifyReply) {
     const { id } = paramsSchema.parse(req.params)
 
     const usersRepository = new KnexUsersRepository()
-    const deleteService = new DeleteUserService(usersRepository)
+    const deleteService = new DeleteUser(usersRepository)
 
     await deleteService.delete(id)
   } catch (error) {

@@ -14,4 +14,3 @@ export const knexConfig: Knex.Config = {
 }
 
 export const knex = knexSetup(knexConfig)
- 

@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify"
 import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository"
-import { FetchUserService } from "@/services/users/fetch-user-service"
-import { UserNotFoundError } from "@/services/errors"
+import { FetchUser } from "@/use-cases/users/get-user"
+import { UserNotFoundError } from "@/use-cases/errors"
 import { z } from "zod"
 
 export async function fetchUser(req: FastifyRequest, res: FastifyReply) {
@@ -10,7 +10,7 @@ export async function fetchUser(req: FastifyRequest, res: FastifyReply) {
     const { id } = paramsSchema.parse(req.params)
 
     const usersRepository = new KnexUsersRepository()
-    const getUserService = new FetchUserService(usersRepository)
+    const getUserService = new FetchUser(usersRepository)
     const user = await getUserService.getUserByID(id)
 
     return { user }

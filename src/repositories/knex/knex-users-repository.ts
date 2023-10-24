@@ -16,7 +16,7 @@ export class KnexUsersRepository implements TUsersRepository {
     return users.length > 0 ? users : null
   }
 
-  async createUser({ id, name, email, session_id }: User) {
+  async register({ id, name, email, session_id }: User) {
     await knex("users").insert({ id, name, email, session_id })
   }
 }

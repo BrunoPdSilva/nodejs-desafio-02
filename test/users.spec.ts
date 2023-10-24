@@ -3,7 +3,7 @@ import { execSync } from "node:child_process"
 import { app } from "../src/app"
 import supertest from "supertest"
 import { KnexUsersRepository } from "../src/repositories/knex/knex-users-repository"
-import { DeleteUserService } from "../src/services/users/delete-user-service"
+import { DeleteUser } from "../src/use-cases/users/delete-user"
 
 describe("Users Route", () => {
   beforeAll(async () => await app.ready())
