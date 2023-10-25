@@ -6,10 +6,15 @@ import { RegisterUser } from "@/use-cases/users/register-user"
 
 export async function register(req: FastifyRequest, res: FastifyReply) {
   try {
-    const bodySchema = z.object({ name: z.string(), email: z.string().email() })
-    const { name, email } = bodySchema.parse(req.body)
+    const bodySchema = z.object({
+      name: z.string(),
+      email: z.string().email(),
+      password: z.string().min(3),
+    })
+
+    const { name, email, password } = bodySchema.parse(req.body)
     const maxAge = 1000 * 60 * 60 * 24 * 30 // Cookie age 30 days
-    const id = randomUUID()
+
     let { sessionID } = req.cookies
 
     if (!sessionID) {
@@ -23,10 +28,9 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
     const { user } = await useCase.execute({
       name,
       email,
+      password,
       session_id: sessionID,
     })
-
-    res.cookie("userID", id, { path: "/", maxAge })
 
     return res.status(201).send({ user })
   } catch (error) {

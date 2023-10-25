@@ -22,12 +22,14 @@ export class KnexUsersRepository implements TUsersRepository {
     return users.length > 0 ? users : null
   }
 
-  async register(data: UserCreation) {
+  async register({ name, email, password, session_id }: UserCreation) {
     const user = {
       id: randomUUID(),
+      name,
+      email,
+      password_hash: password,
       created_at: new Date().toISOString(),
-      password_hash: data.password,
-      ...data,
+      session_id,
     }
 
     await knex("users").insert(user)

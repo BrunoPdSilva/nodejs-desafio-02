@@ -10,15 +10,18 @@
     "test": "vitest run",
     "test:unit": "vitest run --dir src/use-cases",
     "test:unit:watch": "vitest --dir src/use-cases",
-    "test:unit:ui": "vitest --ui --dir src/use-cases"
+    "test:unit:ui": "vitest --ui --dir src/use-cases",
+    "test:e2e": "vitest run --threads=false --single-thread=true  --dir src/controllers",
+    "test:e2e:watch": "vitest --dir src/controllers",
+    "test:e2e:ui": "vitest --ui --dir src/controllers"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.5",
     "@types/node": "^20.7.0",
     "@types/supertest": "^2.0.13",
-    "@types/bcryptjs": "^2.4.5",
     "@vitest/coverage-v8": "^0.34.6",
     "@vitest/ui": "^0.34.6",
     "sqlite3": "^5.1.6",
@@ -31,6 +34,7 @@
   },
   "dependencies": {
     "@fastify/cookie": "^9.1.0",
+    "@fastify/jwt": "^7.2.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
     "fastify": "^4.23.2",

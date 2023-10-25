@@ -3,8 +3,13 @@ import fastifyCookie from "@fastify/cookie"
 import { users } from "./routes/users"
 import { meals } from "./routes/meals"
 import { env } from "./env"
+import fastifyJwt from "@fastify/jwt"
 
 export const app = fastify()
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+})
 
 app.register(fastifyCookie)
 app.register(users, { prefix: "users" })
