@@ -3,13 +3,18 @@ import { TUsersRepository, UserCreation } from "../users-repository"
 import { randomUUID } from "node:crypto"
 
 export class KnexUsersRepository implements TUsersRepository {
+  async getUserByEmail(email: string) {
+    const user = await knex("users").where("email", email).first()
+    return user ?? null
+  }
+
   async deleteUserByID(id: string) {
     await knex("users").where("id", id).del()
   }
 
   async getUserById(id: string) {
     const user = await knex("users").where("id", id).first()
-    return user ? user : null
+    return user ?? null
   }
 
   async fetchUsers() {
@@ -21,6 +26,7 @@ export class KnexUsersRepository implements TUsersRepository {
     const user = {
       id: randomUUID(),
       created_at: new Date().toISOString(),
+      password_hash: data.password,
       ...data,
     }
 

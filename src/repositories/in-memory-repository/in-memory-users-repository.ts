@@ -11,18 +11,24 @@ export class InMemoryUsersRepository implements TUsersRepository {
 
   async getUserById(id: string) {
     const user = this.users.find(user => user.id === id)
-    return user ? user : null
+    return user ?? null
   }
 
   async fetchUsers() {
     return this.users.length > 0 ? this.users : null
   }
 
+  async getUserByEmail(email: string) {
+    const user = this.users.find(user => user.email === email)
+    return user ?? null
+  }
+
   async register(data: UserCreation) {
     const user: User = {
       id: randomUUID(),
       created_at: new Date().toISOString(),
-      ...data
+      password_hash: data.password,
+      ...data,
     }
 
     this.users.push(user)

@@ -18,6 +18,7 @@ describe("Get User By ID [UNIT]", () => {
     const registerResponse = usersRepository.register({
       email: "test@example.com",
       name: "Test User",
+      password: "test-password",
       session_id: randomUUID(),
     })
 

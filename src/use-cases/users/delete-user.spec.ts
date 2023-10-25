@@ -18,6 +18,7 @@ describe("Delete User [UNIT]", () => {
     const user = await usersRepository.register({
       email: "test@example.com",
       name: "Test User",
+      password: "test-password",
       session_id: randomUUID(),
     })
 

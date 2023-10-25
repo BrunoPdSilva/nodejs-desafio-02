@@ -18,12 +18,14 @@ describe("Fetch Users [UNIT]", () => {
     await usersRepository.register({
       name: "User 1",
       email: "user1@gmail.com",
+      password: "test-password",
       session_id: randomUUID(),
     })
 
     await usersRepository.register({
       name: "User 2",
       email: "user2@gmail.com",
+      password: "test-password",
       session_id: randomUUID(),
     })
 

@@ -3,6 +3,7 @@ import { TUsersRepository } from "@/repositories/users-repository"
 import { InMemoryUsersRepository } from "@/repositories/in-memory-repository/in-memory-users-repository"
 import { RegisterUser } from "./register-user"
 import { randomUUID } from "crypto"
+import { EmailAlreadyExistsError } from "../errors"
 
 describe("Register User [UNIT]", () => {
   let usersRepository: TUsersRepository
@@ -17,6 +18,7 @@ describe("Register User [UNIT]", () => {
     const { user } = await useCase.execute({
       email: "test@example.com",
       name: "Test User",
+      password: "test-password",
       session_id: randomUUID(),
     })
 
@@ -29,5 +31,23 @@ describe("Register User [UNIT]", () => {
         created_at: expect.any(String),
       })
     )
+  })
+
+  it("should trigger an error if user already exists", async () => {
+    await useCase.execute({
+      email: "test@example.com",
+      name: "Test User",
+      password: "test-password",
+      session_id: randomUUID(),
+    })
+
+    await expect(
+      useCase.execute({
+        email: "test@example.com",
+        name: "Test User",
+        password: "test-password",
+        session_id: randomUUID(),
+      })
+    ).rejects.toBeInstanceOf(EmailAlreadyExistsError)
   })
 })

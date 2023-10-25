@@ -10,9 +10,15 @@ export class UserNotFoundError extends Error {
   }
 }
 
+export class InvalidCredentialsError extends Error {
+  constructor() {
+    super("E-mail ou senha incorretos.")
+  }
+}
+
 export class EmailAlreadyExistsError extends Error {
   constructor() {
-    super("Este e-mail já existe.")
+    super("Este e-mail já está cadastrado.")
   }
 }
 
