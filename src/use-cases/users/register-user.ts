@@ -15,7 +15,7 @@ export class RegisterUser {
     const user = await this.usersRepository.register({ ...data, password })
 
     return {
-      user: { ...user, password: undefined },
+      user: { ...user, password_hash: undefined },
     }
   }
 }

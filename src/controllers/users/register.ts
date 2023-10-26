@@ -1,8 +1,7 @@
-import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository"
+import { makeUserRegisterUseCase } from "@/use-cases/factories/make-register-use-case"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { randomUUID } from "crypto"
 import { z } from "zod"
-import { RegisterUser } from "@/use-cases/users/register-user"
 
 export async function register(req: FastifyRequest, res: FastifyReply) {
   try {
@@ -22,8 +21,7 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
       res.cookie("sessionID", sessionID, { path: "/", maxAge })
     }
 
-    const usersRepository = new KnexUsersRepository()
-    const useCase = new RegisterUser(usersRepository)
+    const useCase = makeUserRegisterUseCase()
 
     const { user } = await useCase.execute({
       name,
@@ -31,6 +29,14 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
       password,
       session_id: sessionID,
     })
+
+    let { user_id } = req.cookies
+
+    if (!user_id) {
+      const user_id = user.id
+      const maxAge = 1000 * 60 * 60 * 24 * 7 // 7 days
+      res.cookie("user_id", user_id, { path: "/", maxAge })
+    }
 
     return res.status(201).send({ user })
   } catch (error) {
@@ -41,6 +47,4 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
     }
     throw error
   }
-
-  res.status(201).send()
 }

@@ -14,6 +14,6 @@ export class AuthenticateUser {
 
     if (!doesPasswordsMatch) throw new InvalidCredentialsError()
 
-    return { user }
+    return { user: { ...user, password: undefined } }
   }
 }

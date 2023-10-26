@@ -1,17 +1,17 @@
 import { TUsersRepository } from "@/repositories/users-repository"
 import { it, describe, expect, beforeEach } from "vitest"
-import { GetUser } from "./get-user"
+import { Profile } from "./user-profile"
 import { InMemoryUsersRepository } from "@/repositories/in-memory-repository/in-memory-users-repository"
 import { UserNotFoundError } from "../errors"
 import { randomUUID } from "node:crypto"
 
-describe("Get User By ID [UNIT]", () => {
+describe("User Profile [UNIT]", () => {
   let usersRepository: TUsersRepository
-  let useCase: GetUser
+  let useCase: Profile
 
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository()
-    useCase = new GetUser(usersRepository)
+    useCase = new Profile(usersRepository)
   })
 
   it("should be able to retrieve a user by ID", async () => {

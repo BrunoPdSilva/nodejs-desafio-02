@@ -5,11 +5,12 @@ import { deleteMeal } from "@/controllers/meals/delete-meal"
 import { getMeal } from "@/controllers/meals/get-meal"
 import { fetchUserMeals } from "@/controllers/meals/fetch-user-meals"
 import { update } from "@/controllers/meals/update-meal"
+import { verifyJWT } from "@/middleware/verify-jwt"
 
 export async function meals(app: FastifyInstance) {
   app.post("/", register)
 
-  app.put("/:id", update)
+  app.put("/:id", { onRequest: [verifyJWT] }, update)
 
   app.get("/:id", { preHandler: checkSessionID }, getMeal)
 

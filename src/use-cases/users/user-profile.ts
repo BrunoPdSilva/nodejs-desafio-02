@@ -1,7 +1,7 @@
 import { TUsersRepository } from "@/repositories/users-repository"
 import { UserNotFoundError } from "../errors"
 
-export class GetUser {
+export class Profile {
   constructor(private usersRepository: TUsersRepository) {}
 
   async execute(id: string) {
