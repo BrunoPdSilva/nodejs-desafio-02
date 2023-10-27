@@ -9,7 +9,6 @@ export class KnexUsersRepository implements TUsersRepository {
     await knex("users").insert({
       ...data,
       id: userId,
-      password_hash: data.password,
     })
 
     const user = await knex("users").where("id", userId).first()

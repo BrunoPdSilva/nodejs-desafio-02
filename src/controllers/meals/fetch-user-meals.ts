@@ -1,16 +1,14 @@
 import { KnexMealsRepository } from "@/repositories/knex/knex-meals-repository"
 import { MealsNotFoundError } from "@/use-cases/errors"
+import { makeFetchMealsUseCase } from "@/use-cases/factories/make-fetch-meals-use-case"
 import { FetchMeals } from "@/use-cases/meals/fetch-meals"
 import { FastifyReply, FastifyRequest } from "fastify"
 
 export async function fetchUserMeals(req: FastifyRequest, res: FastifyReply) {
   try {
-    const { sessionID, userID } = req.cookies
+    const useCase = makeFetchMealsUseCase()
 
-    const mealsRepository = new KnexMealsRepository()
-    const useCase = new FetchMeals(mealsRepository)
-
-    const { meals } = await useCase.execute(sessionID!, userID)
+    const { meals } = await useCase.execute(req.user.sub)
 
     return res.status(200).send({ meals })
   } catch (error) {

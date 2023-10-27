@@ -1,10 +1,10 @@
-import { it, describe, expect, beforeEach, beforeAll, afterAll } from "vitest"
+import { it, describe, expect, beforeAll, afterAll, beforeEach } from "vitest"
 import { app } from "@/app"
 import supertest from "supertest"
 import { execSync } from "node:child_process"
 import { registerAndAuthenticate } from "@/utils/register-and-authenticate"
 
-describe("Register Meal [E2E]", () => {
+describe("Get Meal [E2E]", () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -18,10 +18,10 @@ describe("Register Meal [E2E]", () => {
     execSync("npx knex migrate:latest")
   })
 
-  it("should be able to register a meal even if the user is not logged.", async () => {
+  it("should be able to get a meal by it's id", async () => {
     const { token } = await registerAndAuthenticate(app)
 
-    const response = await supertest(app.server)
+    const registerResponse = await supertest(app.server)
       .post("/meals")
       .send({
         name: "Pastel",
@@ -31,7 +31,13 @@ describe("Register Meal [E2E]", () => {
       })
       .set("Authorization", `Bearer ${token}`)
 
-    expect(response.statusCode).toEqual(201)
+    const mealCreated = registerResponse.body.meal
+
+    const response = await supertest(app.server)
+      .get(`/meals/${mealCreated.id}`)
+      .set("Authorization", `Bearer ${token}`)
+
+    expect(response.status).toBe(200)
     expect(response.body.meal).toEqual(
       expect.objectContaining({
         name: "Pastel",

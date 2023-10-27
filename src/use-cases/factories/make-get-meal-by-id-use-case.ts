@@ -1,8 +1,8 @@
 import { KnexMealsRepository } from "@/repositories/knex/knex-meals-repository"
-import { FetchMeals } from "../meals/fetch-meals"
+import { GetMealById } from "../meals/get-meal-by-id"
 
-export function makeGetMealByIdMealUseCase() {
+export function makeGetMealByIdUseCase() {
   const mealsRepository = new KnexMealsRepository()
-  const useCase = new FetchMeals(mealsRepository)
+  const useCase = new GetMealById(mealsRepository)
   return useCase
 }

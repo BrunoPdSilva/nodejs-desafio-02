@@ -1,7 +1,7 @@
 import { it, describe, expect, beforeAll, afterAll, beforeEach } from "vitest"
+import { execSync } from "node:child_process"
 import { app } from "@/app"
 import supertest from "supertest"
-import { execSync } from "node:child_process"
 
 describe("Register User [E2E]", () => {
   beforeAll(async () => {
@@ -17,14 +17,12 @@ describe("Register User [E2E]", () => {
     execSync("npx knex migrate:latest")
   })
 
-  it("should be able to authenticate a user", async () => {
-    const registerResponse = await supertest(app.server).post("/users").send({
+  it("should be able to authenticate.", async () => {
+    await supertest(app.server).post("/users").send({
       name: "John Doe",
       email: "john@example.com",
       password: "john123",
     })
-
-    const cookies = registerResponse.get("Set-Cookie")
 
     const response = await supertest(app.server)
       .post("/users/authenticate")
@@ -32,7 +30,6 @@ describe("Register User [E2E]", () => {
         email: "john@example.com",
         password: "john123",
       })
-      .set("Cookie", cookies)
 
     expect(response.statusCode).toEqual(200)
     expect(response.body.token).toEqual(expect.any(String))

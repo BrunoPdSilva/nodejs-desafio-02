@@ -1,16 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { KnexMealsRepository } from "@/repositories/knex/knex-meals-repository"
+import { makeGetMealByIdUseCase } from "@/use-cases/factories/make-get-meal-by-id-use-case"
 import { MealNotFoundError } from "@/use-cases/errors"
 import { z } from "zod"
-import { GetMealById } from "@/use-cases/meals/get-meal-by-id"
 
 export async function getMeal(req: FastifyRequest, res: FastifyReply) {
   try {
     const paramsSchema = z.object({ id: z.string().uuid() })
     const { id } = paramsSchema.parse(req.params)
 
-    const mealsRepository = new KnexMealsRepository()
-    const useCase = new GetMealById(mealsRepository)
+    const useCase = makeGetMealByIdUseCase()
     const { meal } = await useCase.execute(id)
 
     return res.status(200).send({ meal })

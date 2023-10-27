@@ -1,7 +1,7 @@
 import { it, expect, describe, beforeEach, beforeAll, afterAll } from "vitest"
+import { execSync } from "node:child_process"
 import { app } from "@/app"
 import supertest from "supertest"
-import { execSync } from "node:child_process"
 
 describe("User Profile [E2E]", () => {
   beforeAll(async () => {
@@ -17,7 +17,7 @@ describe("User Profile [E2E]", () => {
     execSync("npx knex migrate:latest")
   })
 
-  it("should be able to get logged user profile", async () => {
+  it("Should be able to retrieve the profile of the logged-in user", async () => {
     await supertest(app.server).post("/users").send({
       name: "Bruno Peres",
       email: "bruno.peres@gmail.com",

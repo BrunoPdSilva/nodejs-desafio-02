@@ -3,7 +3,7 @@ import { User } from "@/@types/knex"
 export type UserCreation = {
   name: string
   email: string
-  password: string
+  password_hash: string
 }
 
 export type TUsersRepository = {

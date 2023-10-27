@@ -18,7 +18,7 @@ describe("Authenticate User [UNIT]", () => {
     await usersRepository.register({
       name: "Test User",
       email: "test@example",
-      password: await hash("4789", 6),
+      password_hash: await hash("4789", 6),
     })
 
     const { user } = await useCase.execute("test@example", "4789")
@@ -36,7 +36,7 @@ describe("Authenticate User [UNIT]", () => {
     await usersRepository.register({
       name: "Test User",
       email: "test@example",
-      password: await hash("4789", 6),
+      password_hash: await hash("4789", 6),
     })
 
     await expect(useCase.execute("test@example", "489")).rejects.toBeInstanceOf(

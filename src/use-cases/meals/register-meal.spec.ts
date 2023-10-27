@@ -17,7 +17,7 @@ describe("Register Meal [UNIT]", () => {
       name: "Pastel",
       description: "Pastel da feira de domingo.",
       date: "2023-10-27",
-      time: "10:23:57",
+      time: "10:23",
       user_id: "123",
     })
 
@@ -27,7 +27,7 @@ describe("Register Meal [UNIT]", () => {
         name: "Pastel",
         description: "Pastel da feira de domingo.",
         date: "2023-10-27",
-        time: "10:23:57",
+        time: "10:23",
         in_diet: false,
         user_id: "123",
       })

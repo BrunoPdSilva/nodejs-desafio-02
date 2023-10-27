@@ -22,7 +22,7 @@ export async function update(req: FastifyRequest, res: FastifyReply) {
     const useCase = new UpdateMeal(mealsRepository)
     const { mealUpdated } = await useCase.execute(id, data)
 
-    res.status(204).send({ mealUpdated })
+    res.status(200).send({ mealUpdated })
   } catch (error) {
     if (error instanceof z.ZodError) {
       res.status(400).send("Informe os dados da refeição corretamente.")

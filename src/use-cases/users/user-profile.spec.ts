@@ -3,6 +3,7 @@ import { TUsersRepository } from "@/repositories/users-repository"
 import { Profile } from "./user-profile"
 import { it, describe, expect, beforeEach } from "vitest"
 import { UserNotFoundError } from "../errors"
+import { hash } from "bcryptjs"
 
 describe("User Profile [UNIT]", () => {
   let usersRepository: TUsersRepository
@@ -17,7 +18,7 @@ describe("User Profile [UNIT]", () => {
     const userRegistered = await usersRepository.register({
       email: "test@example.com",
       name: "Test User",
-      password: "test-password",
+      password_hash: await hash("teste", 6),
     })
 
     const { user } = await useCase.execute(userRegistered.id)

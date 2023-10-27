@@ -10,7 +10,6 @@ export class InMemoryUsersRepository implements TUsersRepository {
       ...data,
       id: randomUUID(),
       created_at: new Date().toISOString(),
-      password_hash: data.password,
     }
 
     this.users.push(user)

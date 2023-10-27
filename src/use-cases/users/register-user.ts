@@ -1,18 +1,28 @@
-import { TUsersRepository, UserCreation } from "@/repositories/users-repository"
+import { TUsersRepository } from "@/repositories/users-repository"
 import { EmailAlreadyExistsError } from "../errors"
 import { hash } from "bcryptjs"
+
+type RegisterRequest = {
+  name: string
+  email: string
+  password: string
+}
 
 export class RegisterUser {
   constructor(private usersRepository: TUsersRepository) {}
 
-  async execute(data: UserCreation) {
-    const userExists = await this.usersRepository.getUserByEmail(data.email)
+  async execute({ name, email, password }: RegisterRequest) {
+    const userExists = await this.usersRepository.getUserByEmail(email)
 
     if (userExists) throw new EmailAlreadyExistsError()
 
-    const password = await hash(data.password, 6)
+    const password_hash = await hash(password, 6)
 
-    const user = await this.usersRepository.register({ ...data, password })
+    const user = await this.usersRepository.register({
+      name,
+      email,
+      password_hash,
+    })
 
     return {
       user: { ...user, password_hash: undefined },

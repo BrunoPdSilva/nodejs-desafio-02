@@ -1,7 +1,7 @@
 import { it, describe, expect, beforeAll, afterAll, beforeEach } from "vitest"
+import { execSync } from "node:child_process"
 import { app } from "@/app"
 import supertest from "supertest"
-import { execSync } from "node:child_process"
 
 describe("Register User [E2E]", () => {
   beforeAll(async () => {
