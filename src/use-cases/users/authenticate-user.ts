@@ -14,6 +14,11 @@ export class AuthenticateUser {
 
     if (!doesPasswordsMatch) throw new InvalidCredentialsError()
 
-    return { user: { ...user, password: undefined } }
+    return {
+      user: {
+        ...user,
+        password_hash: undefined,
+      },
+    }
   }
 }

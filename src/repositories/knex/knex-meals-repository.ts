@@ -1,15 +1,19 @@
 import { knex } from "@/lib/knex"
-import { Meal, MealCreation, TMealsRepository } from "../meals-repository"
 import { randomUUID } from "node:crypto"
+import { Meal } from "@/@types/knex"
+import {
+  TMealCreation,
+  TMealsRepository,
+  TUpdateMeal,
+} from "../meals-repository"
 
 export class KnexMealsRepository implements TMealsRepository {
-  async registerMeal(data: MealCreation) {
+  async registerMeal(data: TMealCreation) {
     const meal: Meal = {
+      ...data,
       id: randomUUID(),
-      user_id: data.user_id ?? null,
       description: data.description ?? null,
       in_diet: data.in_diet ?? false,
-      ...data,
     }
 
     await knex("meals").insert(meal)
@@ -17,26 +21,24 @@ export class KnexMealsRepository implements TMealsRepository {
     return meal
   }
 
-  async fetchMeals(sessionID: string, id = ""): Promise<Meal[] | null> {
-    const meals = await knex("meals").where(function (this: any) {
-      this.where("user_id", id).orWhere("user_session_id", sessionID)
-    })
+  async fetchMeals(userId: string): Promise<Meal[] | null> {
+    const meals = await knex("meals").where("user_id", userId)
 
     return meals.length > 0 ? meals : null
   }
 
-  async getMealById(id: string) {
-    const meal = await knex("meals").where("id", id).first()
-    return meal ? meal : null
+  async getMealById(mealId: string) {
+    const meal = await knex("meals").where("id", mealId).first()
+    return meal ?? null
   }
 
-  async updateMeal(id: string, data: Partial<Meal>) {
-    await knex("meals").where("id", id).update(data)
-    const meal = await knex("meals").where("id", id).first()
+  async updateMeal(mealId: string, data: TUpdateMeal) {
+    await knex("meals").where("id", mealId).update(data)
+    const meal = await knex("meals").where("id", mealId).first()
     return meal!
   }
 
-  async deleteMeal(id: string) {
-    await knex("meals").where("id", id).del()
+  async deleteMeal(mealId: string) {
+    await knex("meals").where("id", mealId).del()
   }
 }

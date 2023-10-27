@@ -19,3 +19,5 @@ _As refeições devem ser relacionadas a um usuário._
 - [] Quantidade total de refeições dentro da dieta
 - [] Quantidade total de refeições fora da dieta
 - [] Melhor sequência de refeições dentro da dieta
+
+- [] DayJS to add date and time.

@@ -8,13 +8,13 @@ import { update } from "@/controllers/meals/update-meal"
 import { verifyJWT } from "@/middleware/verify-jwt"
 
 export async function meals(app: FastifyInstance) {
-  app.post("/", register)
+  app.post("/", { onRequest: [verifyJWT] }, register)
 
   app.put("/:id", { onRequest: [verifyJWT] }, update)
 
-  app.get("/:id", { preHandler: checkSessionID }, getMeal)
+  app.get("/:id", { onRequest: [verifyJWT] }, getMeal)
 
-  app.get("/", { preHandler: checkSessionID }, fetchUserMeals)
+  app.get("/", { onRequest: [verifyJWT] }, fetchUserMeals)
 
-  app.delete("/:id", { preHandler: checkSessionID }, deleteMeal)
+  app.delete("/:id", { onRequest: [verifyJWT] }, deleteMeal)
 }

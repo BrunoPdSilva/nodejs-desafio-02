@@ -3,19 +3,12 @@ import { Knex } from "knex"
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable("meals", table => {
     table.uuid("id").primary()
-    table.uuid("user_id").after("id").defaultTo(null)
-    table.uuid("user_session_id").after("user_id").notNullable()
-    table.string("name").notNullable()
+    table.uuid("user_id").after("id").notNullable(),
+      table.string("name").notNullable()
     table.string("description").defaultTo(null)
-    table.boolean("in_diet").defaultTo(false).notNullable()
-    table.timestamp("date_time").notNullable()
-
-    table
-      .foreign("user_session_id")
-      .references("session_id")
-      .inTable("users")
-      .onDelete("CASCADE")
-      .onUpdate("CASCADE")
+    table.string("date").notNullable(),
+      table.string("time").notNullable(),
+      table.boolean("in_diet").defaultTo(false).notNullable()
 
     table
       .foreign("user_id")

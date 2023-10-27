@@ -1,26 +1,26 @@
-export type Meal = {
-  id: string
-  user_id: string | null
-  user_session_id: string
+import { Meal } from "@/@types/knex"
+
+export type TMealCreation = {
+  user_id: string
   name: string
-  description: string | null
-  in_diet: boolean
-  date_time: string
+  date: string
+  time: string
+  description?: string
+  in_diet?: boolean
 }
 
-export type MealCreation = {
-  name: string
-  user_session_id: string
-  date_time: string
-  description?: string
-  user_id?: string
-  in_diet?: boolean,
+export type TUpdateMeal = {
+  name?: string
+  description?: string | null
+  date?: string
+  time?: string
+  in_diet?: boolean
 }
 
 export type TMealsRepository = {
-  getMealById(id: string): Promise<Meal | null>
-  fetchMeals(sessionID: string, id: string): Promise<Meal[] | null>
-  registerMeal(data: MealCreation): Promise<Meal>
-  updateMeal(id: string, data: Partial<Meal>): Promise<Meal>
-  deleteMeal(id: string): Promise<void>
+  registerMeal(data: TMealCreation): Promise<Meal>
+  fetchMeals(userId: string): Promise<Meal[] | null>
+  getMealById(mealId: string): Promise<Meal | null>
+  updateMeal(mealId: string, data: TUpdateMeal): Promise<Meal>
+  deleteMeal(mealId: string): Promise<void>
 }

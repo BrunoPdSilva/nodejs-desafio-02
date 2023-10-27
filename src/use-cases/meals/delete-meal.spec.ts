@@ -1,7 +1,7 @@
-import { TMealsRepository } from "@/repositories/meals-repository"
-import { it, describe, expect, beforeEach } from "vitest"
-import { DeleteMeal } from "./delete-meal"
 import { InMemoryMealsRepository } from "@/repositories/in-memory-repository/in-memory-meals-repository"
+import { TMealsRepository } from "@/repositories/meals-repository"
+import { DeleteMeal } from "./delete-meal"
+import { it, describe, expect, beforeEach } from "vitest"
 import { MealNotFoundError } from "../errors"
 
 describe("Delete Meal [UNIT]", () => {
@@ -16,8 +16,9 @@ describe("Delete Meal [UNIT]", () => {
   it("should be able to delete a meal", async () => {
     const meal = await mealsRepository.registerMeal({
       name: "Pastel",
-      user_session_id: "123456",
-      date_time: new Date().toISOString(),
+      date: "2023-10-26",
+      time: "12:00:00",
+      user_id: "123",
     })
 
     await useCase.execute(meal.id)

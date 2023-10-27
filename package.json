@@ -12,8 +12,8 @@
     "test:unit:watch": "vitest --dir src/use-cases",
     "test:unit:ui": "vitest --ui --dir src/use-cases",
     "test:e2e": "vitest run --threads=false --single-thread=true  --dir src/controllers",
-    "test:e2e:watch": "vitest --dir src/controllers",
-    "test:e2e:ui": "vitest --ui --dir src/controllers"
+    "test:e2e:watch": "vitest --threads=false --single-thread=true --dir src/controllers",
+    "test:e2e:ui": "vitest --threads=false --single-thread=true --ui --dir src/controllers"
   },
   "keywords": [],
   "author": "",

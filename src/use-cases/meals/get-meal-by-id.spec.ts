@@ -1,7 +1,7 @@
-import { TMealsRepository } from "@/repositories/meals-repository"
-import { it, describe, expect, beforeEach } from "vitest"
-import { GetMealById } from "./get-meal-by-id"
 import { InMemoryMealsRepository } from "@/repositories/in-memory-repository/in-memory-meals-repository"
+import { TMealsRepository } from "@/repositories/meals-repository"
+import { GetMealById } from "./get-meal-by-id"
+import { it, describe, expect, beforeEach } from "vitest"
 import { MealNotFoundError } from "../errors"
 
 describe("Get Meal By ID [UNIT]", () => {
@@ -14,20 +14,21 @@ describe("Get Meal By ID [UNIT]", () => {
   })
 
   it("should be able to get a meal by ID.", async () => {
-    const registerResponse = await mealsRepository.registerMeal({
+    const registeredMeal = await mealsRepository.registerMeal({
       name: "Pastel",
+      date: "2023-10-27",
+      time: "10:23:57",
       user_id: "123",
-      user_session_id: "456",
-      date_time: new Date().toISOString(),
     })
 
-    const { meal } = await useCase.execute(registerResponse.id)
+    const { meal } = await useCase.execute(registeredMeal.id)
 
     expect(meal).toEqual(
       expect.objectContaining({
         name: "Pastel",
+        date: "2023-10-27",
+        time: "10:23:57",
         user_id: "123",
-        user_session_id: "456",
       })
     )
   })

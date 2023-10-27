@@ -3,37 +3,29 @@ import { TUsersRepository, UserCreation } from "../users-repository"
 import { randomUUID } from "node:crypto"
 
 export class KnexUsersRepository implements TUsersRepository {
+  async register(data: UserCreation) {
+    const userId = randomUUID()
+
+    await knex("users").insert({
+      ...data,
+      id: userId,
+      password_hash: data.password,
+    })
+
+    const user = await knex("users").where("id", userId).first()
+
+    if (!user) throw new Error("Falha ao recuperar o usuário após o registro.")
+
+    return user
+  }
+
+  async getUserById(userId: string) {
+    const user = await knex("users").where("id", userId).first()
+    return user ?? null
+  }
+
   async getUserByEmail(email: string) {
     const user = await knex("users").where("email", email).first()
     return user ?? null
-  }
-
-  async deleteUserByID(id: string) {
-    await knex("users").where("id", id).del()
-  }
-
-  async getUserById(id: string) {
-    const user = await knex("users").where("id", id).first()
-    return user ?? null
-  }
-
-  async fetchUsers() {
-    const users = await knex("users").select("*")
-    return users.length > 0 ? users : null
-  }
-
-  async register({ name, email, password, session_id }: UserCreation) {
-    const user = {
-      id: randomUUID(),
-      name,
-      email,
-      password_hash: password,
-      created_at: new Date().toISOString(),
-      session_id,
-    }
-
-    await knex("users").insert(user)
-
-    return user
   }
 }

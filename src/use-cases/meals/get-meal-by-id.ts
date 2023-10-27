@@ -4,8 +4,8 @@ import { MealNotFoundError } from "../errors"
 export class GetMealById {
   constructor(private mealsRepository: TMealsRepository) {}
 
-  async execute(id: string) {
-    const meal = await this.mealsRepository.getMealById(id)
+  async execute(mealId: string) {
+    const meal = await this.mealsRepository.getMealById(mealId)
 
     if (!meal) throw new MealNotFoundError()
 

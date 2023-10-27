@@ -1,4 +1,4 @@
-import { makeUserRegisterUseCase } from "@/use-cases/factories/make-register-use-case"
+import { makeRegisterUserUseCase } from "@/use-cases/factories/make-register-user-use-case"
 import { FastifyReply, FastifyRequest } from "fastify"
 import { randomUUID } from "crypto"
 import { z } from "zod"
@@ -21,7 +21,7 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
       res.cookie("sessionID", sessionID, { path: "/", maxAge })
     }
 
-    const useCase = makeUserRegisterUseCase()
+    const useCase = makeRegisterUserUseCase()
 
     const { user } = await useCase.execute({
       name,

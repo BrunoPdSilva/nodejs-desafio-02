@@ -1,15 +1,15 @@
-import { Meal, TMealsRepository } from "@/repositories/meals-repository"
-import { MealNotFoundError, MealNotUpdated } from "../errors"
+import { TMealsRepository, TUpdateMeal } from "@/repositories/meals-repository"
+import { MealNotFoundError } from "../errors"
 
 export class UpdateMeal {
   constructor(private mealsRepository: TMealsRepository) {}
 
-  async execute(id: string, data: Partial<Meal>) {
-    const meal = await this.mealsRepository.getMealById(id)
+  async execute(mealId: string, data: TUpdateMeal) {
+    const meal = await this.mealsRepository.getMealById(mealId)
 
     if (!meal) throw new MealNotFoundError()
 
-    const mealUpdated = await this.mealsRepository.updateMeal(id, data)
+    const mealUpdated = await this.mealsRepository.updateMeal(mealId, data)
 
     return { mealUpdated }
   }

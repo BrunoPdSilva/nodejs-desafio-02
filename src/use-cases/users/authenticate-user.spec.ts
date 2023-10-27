@@ -1,9 +1,9 @@
-import { TUsersRepository } from "@/repositories/users-repository"
-import { it, describe, expect, beforeEach } from "vitest"
-import { AuthenticateUser } from "./authenticate-user"
 import { InMemoryUsersRepository } from "@/repositories/in-memory-repository/in-memory-users-repository"
-import { hash } from "bcryptjs"
+import { TUsersRepository } from "@/repositories/users-repository"
+import { AuthenticateUser } from "./authenticate-user"
+import { it, describe, expect, beforeEach } from "vitest"
 import { InvalidCredentialsError } from "../errors"
+import { hash } from "bcryptjs"
 
 describe("Authenticate User [UNIT]", () => {
   let usersRepository: TUsersRepository
@@ -19,7 +19,6 @@ describe("Authenticate User [UNIT]", () => {
       name: "Test User",
       email: "test@example",
       password: await hash("4789", 6),
-      session_id: "123456",
     })
 
     const { user } = await useCase.execute("test@example", "4789")
@@ -38,7 +37,6 @@ describe("Authenticate User [UNIT]", () => {
       name: "Test User",
       email: "test@example",
       password: await hash("4789", 6),
-      session_id: "123456",
     })
 
     await expect(useCase.execute("test@example", "489")).rejects.toBeInstanceOf(

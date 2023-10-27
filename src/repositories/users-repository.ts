@@ -1,14 +1,6 @@
-export type User = {
-  id: string
-  session_id: string
-  name: string
-  email: string
-  password_hash: string
-  created_at: string
-}
+import { User } from "@/@types/knex"
 
 export type UserCreation = {
-  session_id: string
   name: string
   email: string
   password: string
@@ -16,8 +8,6 @@ export type UserCreation = {
 
 export type TUsersRepository = {
   register(data: UserCreation): Promise<User>
-  getUserById(id: string): Promise<User | null>
-  fetchUsers(): Promise<User[] | null>
-  deleteUserByID(id: string): Promise<void>
+  getUserById(userId: string): Promise<User | null>
   getUserByEmail(email: string): Promise<User | null>
 }

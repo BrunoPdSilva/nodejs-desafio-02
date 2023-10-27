@@ -1,8 +1,7 @@
-import { TMealsRepository } from "@/repositories/meals-repository"
-import { it, describe, expect, beforeEach } from "vitest"
-import { RegisterMeal } from "./register-meal"
 import { InMemoryMealsRepository } from "@/repositories/in-memory-repository/in-memory-meals-repository"
-import { randomUUID } from "node:crypto"
+import { TMealsRepository } from "@/repositories/meals-repository"
+import { RegisterMeal } from "./register-meal"
+import { it, describe, expect, beforeEach } from "vitest"
 
 describe("Register Meal [UNIT]", () => {
   let mealsRepository: TMealsRepository
@@ -17,8 +16,9 @@ describe("Register Meal [UNIT]", () => {
     const { meal } = await useCase.execute({
       name: "Pastel",
       description: "Pastel da feira de domingo.",
-      user_session_id: randomUUID(),
-      date_time: new Date().toISOString(),
+      date: "2023-10-27",
+      time: "10:23:57",
+      user_id: "123",
     })
 
     expect(meal).toEqual(
@@ -26,10 +26,10 @@ describe("Register Meal [UNIT]", () => {
         id: expect.any(String),
         name: "Pastel",
         description: "Pastel da feira de domingo.",
-        user_id: null,
-        user_session_id: expect.any(String),
+        date: "2023-10-27",
+        time: "10:23:57",
         in_diet: false,
-        date_time: expect.any(String),
+        user_id: "123",
       })
     )
   })

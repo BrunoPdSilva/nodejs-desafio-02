@@ -4,8 +4,8 @@ import { UserNotFoundError } from "../errors"
 export class Profile {
   constructor(private usersRepository: TUsersRepository) {}
 
-  async execute(id: string) {
-    const user = await this.usersRepository.getUserById(id)
+  async execute(userId: string) {
+    const user = await this.usersRepository.getUserById(userId)
 
     if (!user) throw new UserNotFoundError()
 

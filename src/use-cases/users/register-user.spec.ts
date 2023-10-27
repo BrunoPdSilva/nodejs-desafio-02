@@ -1,8 +1,7 @@
-import { it, describe, expect, beforeEach } from "vitest"
-import { TUsersRepository } from "@/repositories/users-repository"
 import { InMemoryUsersRepository } from "@/repositories/in-memory-repository/in-memory-users-repository"
+import { TUsersRepository } from "@/repositories/users-repository"
 import { RegisterUser } from "./register-user"
-import { randomUUID } from "crypto"
+import { it, describe, expect, beforeEach } from "vitest"
 import { EmailAlreadyExistsError } from "../errors"
 
 describe("Register User [UNIT]", () => {
@@ -19,7 +18,6 @@ describe("Register User [UNIT]", () => {
       email: "test@example.com",
       name: "Test User",
       password: "test-password",
-      session_id: randomUUID(),
     })
 
     expect(user).toEqual(
@@ -27,7 +25,6 @@ describe("Register User [UNIT]", () => {
         id: expect.any(String),
         email: "test@example.com",
         name: "Test User",
-        session_id: expect.any(String),
         created_at: expect.any(String),
       })
     )
@@ -38,7 +35,6 @@ describe("Register User [UNIT]", () => {
       email: "test@example.com",
       name: "Test User",
       password: "test-password",
-      session_id: randomUUID(),
     })
 
     await expect(
@@ -46,7 +42,6 @@ describe("Register User [UNIT]", () => {
         email: "test@example.com",
         name: "Test User",
         password: "test-password",
-        session_id: randomUUID(),
       })
     ).rejects.toBeInstanceOf(EmailAlreadyExistsError)
   })
