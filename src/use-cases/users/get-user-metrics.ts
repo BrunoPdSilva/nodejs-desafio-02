@@ -1,6 +1,6 @@
 import { TMealsRepository } from "@/repositories/meals-repository"
 import { TUsersRepository } from "@/repositories/users-repository"
-import { UserNotFoundError } from "../errors"
+import { MealsNotFoundError, UserNotFoundError } from "../errors"
 
 export class GetUserMetrics {
   constructor(
@@ -8,9 +8,22 @@ export class GetUserMetrics {
     private mealsRepository: TMealsRepository
   ) {}
 
-  async get(userId: string) {
+  async execute(userId: string) {
     const user = await this.usersRepository.getUserById(userId)
 
     if (!user) throw new UserNotFoundError()
+
+    const meals = await this.mealsRepository.fetchMeals(userId)
+
+    if (!meals) throw new MealsNotFoundError()
+
+    const inDiet = meals.filter(meal => Boolean(meal.in_diet))
+    const notInDiet = meals.filter(meal => !Boolean(meal.in_diet))
+
+    return {
+      mealsRegistered: meals.length,
+      inDiet: inDiet.length,
+      notInDiet: notInDiet.length,
+    }
   }
 }
