@@ -55,6 +55,7 @@ describe("Metrics [UNIT]", () => {
         mealsRegistered: 3,
         inDiet: 1,
         notInDiet: 2,
+        mealStreak: 1,
       })
     )
   })

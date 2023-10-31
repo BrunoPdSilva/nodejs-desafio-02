@@ -46,6 +46,33 @@ describe("Metrics [E2E]", () => {
     await supertest(app.server)
       .post("/meals")
       .send({
+        name: "Omelete",
+        date_time: new Date(2023, 10, 30, 19, 3, 0),
+        in_diet: true,
+      })
+      .set("Authorization", `Bearer ${token}`)
+
+    await supertest(app.server)
+      .post("/meals")
+      .send({
+        name: "Tapioca",
+        date_time: new Date(2023, 10, 31, 19, 3, 0),
+        in_diet: true,
+      })
+      .set("Authorization", `Bearer ${token}`)
+
+    await supertest(app.server)
+      .post("/meals")
+      .send({
+        name: "Macarronada",
+        date_time: new Date(2023, 10, 28, 10, 23, 0),
+        in_diet: true,
+      })
+      .set("Authorization", `Bearer ${token}`)
+
+    await supertest(app.server)
+      .post("/meals")
+      .send({
         name: "Pastel",
         description: "Pastel da feira de domingo.",
         date_time: new Date(2023, 10, 27, 10, 23, 0),
@@ -69,9 +96,10 @@ describe("Metrics [E2E]", () => {
     expect(response.statusCode).toEqual(200)
     expect(response.body.metrics).toEqual(
       expect.objectContaining({
-        mealsRegistered: 3,
-        inDiet: 1,
+        mealsRegistered: 6,
+        inDiet: 4,
         notInDiet: 2,
+        mealStreak: 2,
       })
     )
   })

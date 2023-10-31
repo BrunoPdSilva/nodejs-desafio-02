@@ -1,6 +1,7 @@
 import { TMealsRepository } from "@/repositories/meals-repository"
 import { TUsersRepository } from "@/repositories/users-repository"
 import { MealsNotFoundError, UserNotFoundError } from "../errors"
+import { getBetterSequence } from "@/utils/get-better-sequence"
 
 export class GetUserMetrics {
   constructor(
@@ -19,11 +20,13 @@ export class GetUserMetrics {
 
     const inDiet = meals.filter(meal => Boolean(meal.in_diet))
     const notInDiet = meals.filter(meal => !Boolean(meal.in_diet))
+    const mealStreak = getBetterSequence(meals)
 
     return {
       mealsRegistered: meals.length,
       inDiet: inDiet.length,
       notInDiet: notInDiet.length,
+      mealStreak
     }
   }
 }

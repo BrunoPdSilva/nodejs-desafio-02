@@ -29,8 +29,6 @@ describe("Fetch Meals [UNIT]", () => {
 
     const { meals } = await useCase.execute("9487")
 
-    console.log(meals)
-
     expect(meals).toEqual([
       expect.objectContaining({ name: "Pizza de Calabresa" }),
       expect.objectContaining({ name: "Pastel" }),
