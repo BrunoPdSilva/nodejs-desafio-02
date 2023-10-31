@@ -12,7 +12,7 @@ export async function deleteMeal(req: FastifyRequest, res: FastifyReply) {
     const mealsRepository = new KnexMealsRepository()
     const useCase = new DeleteMeal(mealsRepository)
 
-    await useCase.execute(id)
+    await useCase.execute(id, req.user.sub)
 
     return res.status(204).send()
   } catch (error) {

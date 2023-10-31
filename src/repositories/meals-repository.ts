@@ -3,8 +3,7 @@ import { Meal } from "@/@types/knex"
 export type TMealCreation = {
   user_id: string
   name: string
-  date: string
-  time: string
+  date_time: Date
   description?: string
   in_diet?: boolean
 }
@@ -12,8 +11,7 @@ export type TMealCreation = {
 export type TUpdateMeal = {
   name?: string
   description?: string | null
-  date?: string
-  time?: string
+  date_time?: Date
   in_diet?: boolean
 }
 

@@ -26,8 +26,7 @@ describe("Fetch User Meals [E2E]", () => {
       .send({
         name: "Pastel",
         description: "Pastel da feira de domingo.",
-        date: "2023-10-27",
-        time: "10:23",
+        date_time: new Date(2023, 10, 22, 9, 47, 0),
       })
       .set("Authorization", `Bearer ${token}`)
 
@@ -35,8 +34,15 @@ describe("Fetch User Meals [E2E]", () => {
       .post("/meals")
       .send({
         name: "Pizza de Calabresa",
-        date: "2023-10-27",
-        time: "10:23",
+        date_time: new Date(2023, 10, 18, 18, 31, 0),
+      })
+      .set("Authorization", `Bearer ${token}`)
+
+    await supertest(app.server)
+      .post("/meals")
+      .send({
+        name: "Macarronada",
+        date_time: new Date(2023, 10, 20, 14, 1, 47),
       })
       .set("Authorization", `Bearer ${token}`)
 
@@ -44,10 +50,13 @@ describe("Fetch User Meals [E2E]", () => {
       .get("/meals/me")
       .set("Authorization", `Bearer ${token}`)
 
+    console.log(response.body.meals)
+
     expect(response.status).toEqual(200)
     expect(response.body.meals).toEqual([
-      expect.objectContaining({ name: "Pastel" }),
       expect.objectContaining({ name: "Pizza de Calabresa" }),
+      expect.objectContaining({ name: "Macarronada" }),
+      expect.objectContaining({ name: "Pastel" }),
     ])
   })
 })

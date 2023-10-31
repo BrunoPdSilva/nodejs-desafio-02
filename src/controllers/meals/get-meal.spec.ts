@@ -26,8 +26,7 @@ describe("Get Meal [E2E]", () => {
       .send({
         name: "Pastel",
         description: "Pastel da feira de domingo.",
-        date: "2023-10-27",
-        time: "10:23",
+        date_time: new Date(2023, 10, 27, 10, 23, 0),
       })
       .set("Authorization", `Bearer ${token}`)
 
@@ -42,8 +41,7 @@ describe("Get Meal [E2E]", () => {
       expect.objectContaining({
         name: "Pastel",
         description: "Pastel da feira de domingo.",
-        date: "2023-10-27",
-        time: "10:23",
+        date_time: expect.any(String)
       })
     )
   })

@@ -13,7 +13,7 @@ _As refeições devem ser relacionadas a um usuário._
 [x] Deve ser possível editar uma refeição, podendo alterar todos os dados acima
 [x] Deve ser possível visualizar uma única refeição
 
-[] O usuário só pode visualizar, editar e apagar as refeições o qual ele criou
+[x] O usuário só pode visualizar, editar e apagar as refeições o qual ele criou
 [x] Deve ser possível recuperar as métricas de um usuário
 - [x] Quantidade total de refeições registradas
 - [x] Quantidade total de refeições dentro da dieta

@@ -12,6 +12,7 @@ export class KnexMealsRepository implements TMealsRepository {
     const meal: Meal = {
       ...data,
       id: randomUUID(),
+      date_time: data.date_time.toISOString(),
       description: data.description ?? null,
       in_diet: data.in_diet ?? false,
     }
@@ -22,7 +23,9 @@ export class KnexMealsRepository implements TMealsRepository {
   }
 
   async fetchMeals(userId: string): Promise<Meal[] | null> {
-    const meals = await knex("meals").where("user_id", userId)
+    const meals = await knex("meals")
+      .where("user_id", userId)
+      .orderBy("date_time")
 
     return meals.length > 0 ? meals : null
   }
@@ -33,7 +36,12 @@ export class KnexMealsRepository implements TMealsRepository {
   }
 
   async updateMeal(mealId: string, data: TUpdateMeal) {
-    await knex("meals").where("id", mealId).update(data)
+    await knex("meals")
+      .where("id", mealId)
+      .update({
+        ...data,
+        date_time: data.date_time?.toISOString(),
+      })
     const meal = await knex("meals").where("id", mealId).first()
     return meal!
   }

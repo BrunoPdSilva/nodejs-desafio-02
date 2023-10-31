@@ -6,8 +6,7 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
   try {
     const bodySchema = z.object({
       name: z.string(),
-      date: z.string(),
-      time: z.string(),
+      date_time: z.coerce.date(),
       description: z.string().optional(),
       in_diet: z.boolean().optional(),
     })

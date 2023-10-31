@@ -9,7 +9,7 @@ export async function getMeal(req: FastifyRequest, res: FastifyReply) {
     const { id } = paramsSchema.parse(req.params)
 
     const useCase = makeGetMealByIdUseCase()
-    const { meal } = await useCase.execute(id)
+    const { meal } = await useCase.execute(id, req.user.sub)
 
     return res.status(200).send({ meal })
   } catch (error) {

@@ -16,8 +16,7 @@ describe("Register Meal [UNIT]", () => {
     const { meal } = await useCase.execute({
       name: "Pastel",
       description: "Pastel da feira de domingo.",
-      date: "2023-10-27",
-      time: "10:23",
+      date_time: new Date(2023, 10, 31, 13, 0, 1),
       user_id: "123",
     })
 
@@ -26,8 +25,7 @@ describe("Register Meal [UNIT]", () => {
         id: expect.any(String),
         name: "Pastel",
         description: "Pastel da feira de domingo.",
-        date: "2023-10-27",
-        time: "10:23",
+        date_time: expect.any(String),
         in_diet: false,
         user_id: "123",
       })

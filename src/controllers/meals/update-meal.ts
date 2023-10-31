@@ -10,8 +10,7 @@ export async function update(req: FastifyRequest, res: FastifyReply) {
     const bodySchema = z.object({
       name: z.string().optional(),
       description: z.string().optional(),
-      date: z.string().optional(),
-      time: z.string().optional(),
+      date_time: z.coerce.date().optional(),
       in_diet: z.boolean().optional(),
     })
 
@@ -20,7 +19,7 @@ export async function update(req: FastifyRequest, res: FastifyReply) {
 
     const mealsRepository = new KnexMealsRepository()
     const useCase = new UpdateMeal(mealsRepository)
-    const { mealUpdated } = await useCase.execute(id, data)
+    const { mealUpdated } = await useCase.execute(id, data, req.user.sub)
 
     res.status(200).send({ mealUpdated })
   } catch (error) {

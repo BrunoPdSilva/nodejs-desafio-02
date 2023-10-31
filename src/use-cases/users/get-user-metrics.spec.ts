@@ -1,6 +1,6 @@
 import { TMealsRepository } from "@/repositories/meals-repository"
 import { TUsersRepository } from "@/repositories/users-repository"
-import { it, describe, expect, beforeEach, beforeAll, afterAll } from "vitest"
+import { it, describe, expect, beforeEach } from "vitest"
 import { GetUserMetrics } from "./get-user-metrics"
 import { InMemoryUsersRepository } from "@/repositories/in-memory-repository/in-memory-users-repository"
 import { InMemoryMealsRepository } from "@/repositories/in-memory-repository/in-memory-meals-repository"
@@ -29,8 +29,7 @@ describe("Metrics [UNIT]", () => {
       user_id: id,
       name: "Pastel",
       description: "Pastel da feira de domingo.",
-      date: "2023-10-27",
-      time: "10:23",
+      date_time: new Date(2023, 10, 18, 17, 8, 1),
       in_diet: false,
     })
 
@@ -38,16 +37,14 @@ describe("Metrics [UNIT]", () => {
       user_id: id,
       name: "Pizza",
       description: "Pizza de calabresa.",
-      date: "2023-10-29",
-      time: "19:03",
+      date_time: new Date(2023, 10, 29, 19, 3, 1),
       in_diet: false,
     })
 
     await mealsRepository.registerMeal({
       user_id: id,
       name: "Salada",
-      date: "2023-10-27",
-      time: "12:23",
+      date_time: new Date(2023, 10, 27, 12, 23, 0),
       in_diet: true,
     })
 

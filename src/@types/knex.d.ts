@@ -13,8 +13,7 @@ type Meal = {
   user_id: string
   name: string
   description: string | null
-  date: string
-  time: string
+  date_time: string
   in_diet: boolean
 }
 

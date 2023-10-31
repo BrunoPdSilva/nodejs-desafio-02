@@ -13,6 +13,7 @@ export class InMemoryMealsRepository implements TMealsRepository {
     const meal: Meal = {
       ...data,
       id: randomUUID(),
+      date_time: data.date_time.toISOString(),
       description: data.description ?? null,
       in_diet: data.in_diet ?? false,
     }

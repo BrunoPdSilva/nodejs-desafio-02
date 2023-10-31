@@ -39,3 +39,9 @@ export class MealNotUpdated extends Error {
     super("Nenhuma refeição atualizada.")
   }
 }
+
+export class UnauthorizedAccessError extends Error {
+  constructor() {
+    super("Acesso não autorizado.")
+  }
+}

@@ -26,8 +26,7 @@ describe("Update Meal [E2E]", () => {
       .send({
         name: "Pastel",
         description: "Pastel da feira de domingo.",
-        date: "2023-10-27",
-        time: "10:23",
+        date_time: new Date(2023, 10, 22, 9, 47, 0),
       })
       .set("Authorization", `Bearer ${token}`)
 

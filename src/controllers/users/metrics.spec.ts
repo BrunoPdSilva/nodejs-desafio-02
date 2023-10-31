@@ -38,8 +38,7 @@ describe("Metrics [E2E]", () => {
       .send({
         name: "Pizza",
         description: "Pizza de calabresa.",
-        date: "2023-10-29",
-        time: "19:03",
+        date_time: new Date(2023, 10, 29, 19, 3, 0),
         in_diet: false,
       })
       .set("Authorization", `Bearer ${token}`)
@@ -49,8 +48,7 @@ describe("Metrics [E2E]", () => {
       .send({
         name: "Pastel",
         description: "Pastel da feira de domingo.",
-        date: "2023-10-27",
-        time: "10:23",
+        date_time: new Date(2023, 10, 27, 10, 23, 0),
         in_diet: false,
       })
       .set("Authorization", `Bearer ${token}`)
@@ -59,8 +57,7 @@ describe("Metrics [E2E]", () => {
       .post("/meals")
       .send({
         name: "Salada",
-        date: "2023-10-27",
-        time: "12:23",
+        date_time: new Date(2023, 10, 11, 17, 23, 0),
         in_diet: true,
       })
       .set("Authorization", `Bearer ${token}`)

@@ -15,25 +15,25 @@ describe("Fetch Meals [UNIT]", () => {
 
   it("should be able to fetch user meals.", async () => {
     await mealsRepository.registerMeal({
-      name: "Pastel",
-      description: "Pastel da feira de domingo.",
-      date: "2023-10-27",
-      time: "10:23:57",
+      name: "Pizza de Calabresa",
+      date_time: new Date(2023, 10, 28, 17, 2, 1),
       user_id: "9487",
     })
 
     await mealsRepository.registerMeal({
-      name: "Pizza de Calabresa",
-      date: "2023-10-28",
-      time: "19:00:57",
+      name: "Pastel",
+      description: "Pastel da feira de domingo.",
+      date_time: new Date(2023, 10, 27, 17, 2, 1),
       user_id: "9487",
     })
 
     const { meals } = await useCase.execute("9487")
 
+    console.log(meals)
+
     expect(meals).toEqual([
-      expect.objectContaining({ name: "Pastel" }),
       expect.objectContaining({ name: "Pizza de Calabresa" }),
+      expect.objectContaining({ name: "Pastel" }),
     ])
   })
 
